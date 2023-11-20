@@ -27,7 +27,7 @@ int main() {
 
     eq2.set_a(10);
     eq2.set_b(20);
-    eq2.set_c(10);
+    eq2.set_c(30);
 
     std::cout << eq2 << std::endl;
     std::cout << eq2.get_solutions_size() << std::endl;
@@ -38,8 +38,7 @@ int main() {
     }
     std::cout << std::endl;
 
-    eq1 = eq2;
-    eq1.set_c(30);
+    eq1 = -20 + eq2;
 
     std::cout << eq1 << std::endl;
     std::cout << eq1.get_solutions_size() << std::endl;
