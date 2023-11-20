@@ -15,8 +15,8 @@ void Equation::update_solutions()
             this->solutions = new double[2];
             this->solutions_size = 2;
         }     
-        this->solutions[0] = (-this->b + sqrt(discriminant)) / 2 * this->a;
-        this->solutions[1] = (-this->b - sqrt(discriminant)) / 2 * this->a;
+        this->solutions[0] = (-this->b + sqrt(discriminant)) / (2 * this->a);
+        this->solutions[1] = (-this->b - sqrt(discriminant)) / (2 * this->a);
     }
     else if (discriminant == 0) {
         if (this->solutions_size != 1) {
@@ -26,7 +26,7 @@ void Equation::update_solutions()
             this->solutions = new double[1];
             this->solutions_size = 1;
         }
-        this->solutions[0] = (-this->b) / 2 * this->a;
+        this->solutions[0] = -(this->b) / (2 * this->a);
     }
     else {  // case when discriminant < 0
         if (this->solutions_size > 0) {
@@ -46,12 +46,44 @@ Equation::Equation(double a, double b, double c)
     this->update_solutions();
 }
 
+Equation::Equation(const Equation &other_eq)
+    : a{other_eq.a}, b{other_eq.b}, c{other_eq.c}
+    , solutions{nullptr}
+    , solutions_size{other_eq.solutions_size}
+{
+    if (this->solutions_size > 0) {
+        this->solutions = new double[this->solutions_size];
+        this->solutions[0] = other_eq.solutions[0];
+        if (this->solutions_size == 2) {
+            this->solutions[1] = other_eq.solutions[1];
+        }
+    }
+}
+
+Equation& Equation::operator=(const Equation &other_eq)
+{
+    if (this == &other_eq)
+        return *this;
+    this->a = other_eq.a;
+    this->b = other_eq.b;
+    this->c = other_eq.c;
+    delete[] this->solutions;
+    this->solutions = nullptr;
+    this->solutions_size = other_eq.solutions_size;
+    if (this->solutions_size > 0) {
+        this->solutions = new double[this->solutions_size];
+        this->solutions[0] = other_eq.solutions[0];
+        if (this->solutions_size == 2) {
+            this->solutions[1] = other_eq.solutions[1];
+        }
+    } 
+    return *this;
+}
+
 Equation::~Equation()
 {
-    if (this->solutions != nullptr) {
-        delete[] this->solutions;
-        this->solutions = nullptr;
-    }
+    delete[] this->solutions;
+    this->solutions = nullptr;
 }
 
 double Equation::get_a() const

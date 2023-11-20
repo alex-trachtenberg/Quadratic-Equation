@@ -14,6 +14,8 @@ private:
 
 public:
     Equation (double a, double b, double c);
+    Equation (const Equation &other_eq);
+    Equation& operator=(const Equation &other_eq);
     ~Equation ();
     double get_a() const;
     void set_a(double a);
